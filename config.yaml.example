@@ -1,0 +1,36 @@
+# unf-harness 配置。优先级：flag > 本文件
+llm:
+  base_url: http://127.0.0.1:8080/v1   # 换远程 API 只改这一行
+  model: qwen3-coder
+  api_key: ""                # 本地留空；远程可以直接填这里，或用 -api-key 覆盖
+  timeout: 5m                # 单次 LLM 请求超时（本地 30B CPU 慢，按分钟给）
+  temperature: 0.2           # 工具调用场景压低，别用 1.0
+  max_tokens: 4096
+  stream: false              # MVP 关掉
+
+agent:
+  max_turns: 25              # 硬上限，防死循环
+  system_prompt: ""          # 空 = 用内置默认
+  task_timeout: 60s          # 整个任务总超时（三层超时的中层）
+  repeat_limit: 3            # 同工具同参数重复 N 次就打断
+
+context:
+  max_prompt_tokens: 24000   # 必须 < llama-server 的 -c 32768，给生成留空间
+  keep_recent_turns: 6       # 裁剪时保留最近几轮
+  tool_result_max_bytes: 8192
+
+tools:
+  enabled: [run_shell, read_file, write_file]
+  run_shell:
+    timeout: 60s             # 单条命令超时（三层超时的短层）
+    max_output_bytes: 16384  # 输出截断，不然一条 ls 就把上下文吃光
+  write_file:
+    max_bytes: 1048576
+
+trace:
+  enabled: true              # 第一天就开，别等 M4
+  dir: ./traces
+  record_payloads: true      # 记完整 messages（很大，但 M2 调不通时只有它能救命）
+
+log:
+  level: info                # debug = 打印原始请求/响应体
