@@ -46,6 +46,10 @@ func (l LLM) problems() []string {
 	if l.MaxTokens <= 0 {
 		bad = append(bad, fmt.Sprintf("llm.max_tokens 必须 > 0（当前 %d）", l.MaxTokens))
 	}
+	// 只有开着思考才会把 reasoning_effort 发出去，关掉时留空不算错。
+	if l.Thinking && l.ReasoningEffort == "" {
+		bad = append(bad, "llm.thinking 开启时 llm.reasoning_effort 不能为空（如 low / medium / high）")
+	}
 	return bad
 }
 

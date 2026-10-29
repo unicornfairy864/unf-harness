@@ -13,13 +13,15 @@ type Config struct {
 }
 
 type LLM struct {
-	BaseURL     string        `mapstructure:"base_url"`
-	Model       string        `mapstructure:"model"`
-	APIKey      string        `mapstructure:"api_key"`
-	Timeout     time.Duration `mapstructure:"timeout"`
-	Temperature float64       `mapstructure:"temperature"`
-	MaxTokens   int64         `mapstructure:"max_tokens"`
-	Stream      bool          `mapstructure:"stream"`
+	BaseURL         string        `mapstructure:"base_url"`
+	Model           string        `mapstructure:"model"`
+	APIKey          string        `mapstructure:"api_key"`
+	Timeout         time.Duration `mapstructure:"timeout"`
+	Temperature     float64       `mapstructure:"temperature"`
+	MaxTokens       int64         `mapstructure:"max_tokens"`
+	Stream          bool          `mapstructure:"stream"`
+	Thinking        bool          `mapstructure:"thinking"`
+	ReasoningEffort string        `mapstructure:"reasoning_effort"`
 }
 
 type Agent struct {

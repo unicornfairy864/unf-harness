@@ -8,6 +8,8 @@ llm:
   temperature: 0.2           # 工具调用场景压低，别用 1.0
   max_tokens: 4096
   stream: false              # MVP 关掉
+  thinking: true             # 是否开启思考（API 层是 {"type": "enabled"}）；关掉用 -thinking=false
+  reasoning_effort: high     # 思考强度：low / medium / high
 
 agent:
   max_turns: 25              # 硬上限，防死循环

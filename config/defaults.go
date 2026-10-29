@@ -15,6 +15,10 @@ const (
 	defaultLLMMaxTokens   = 4096
 	defaultLLMStream      = false // MVP 关掉
 
+	// 思考：thinking 是开关，reasoning_effort 是强度（API 层 thinking 是 {"type": "enabled"}）
+	defaultLLMThinking        = true
+	defaultLLMReasoningEffort = "high"
+
 	// agent
 	defaultAgentMaxTurns     = 25
 	defaultAgentSystemPrompt = "You are a helpful assistant."
@@ -48,13 +52,15 @@ var defaultToolsEnabled = []string{"run_shell", "read_file", "write_file"}
 func defaultConfig() Config {
 	return Config{
 		LLM: LLM{
-			BaseURL:     defaultLLMBaseURL,
-			Model:       defaultLLMModel,
-			APIKey:      defaultLLMAPIKey,
-			Timeout:     defaultLLMTimeout,
-			Temperature: defaultLLMTemperature,
-			MaxTokens:   defaultLLMMaxTokens,
-			Stream:      defaultLLMStream,
+			BaseURL:         defaultLLMBaseURL,
+			Model:           defaultLLMModel,
+			APIKey:          defaultLLMAPIKey,
+			Timeout:         defaultLLMTimeout,
+			Temperature:     defaultLLMTemperature,
+			MaxTokens:       defaultLLMMaxTokens,
+			Stream:          defaultLLMStream,
+			Thinking:        defaultLLMThinking,
+			ReasoningEffort: defaultLLMReasoningEffort,
 		},
 		Agent: Agent{
 			MaxTurns:     defaultAgentMaxTurns,
