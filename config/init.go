@@ -1,56 +1,56 @@
 package config
 
 import (
+	"errors"
 	"flag"
 	"fmt"
+	"io/fs"
 	"os"
-	"strings"
 
 	"github.com/spf13/viper"
 )
 
-// configFile 是唯一会读的配置文件，相对进程工作目录。
+// configFile 是第二层唯一会读的配置文件，相对进程工作目录。
 const configFile = "config.yaml"
 
-// required 是 config.yaml 必须提供的 key；少任何一个都算"配置不完整"。
-var required = []string{
-	"llm.base_url", "llm.model", "llm.api_key", "llm.timeout", "llm.temperature", "llm.max_tokens", "llm.stream",
-	"agent.max_turns", "agent.system_prompt", "agent.task_timeout", "agent.repeat_limit",
-	"context.max_prompt_tokens", "context.keep_recent_turns", "context.tool_result_max_bytes",
-	"tools.enabled", "tools.run_shell.timeout", "tools.run_shell.max_output_bytes", "tools.write_file.max_bytes",
-	"trace.enabled", "trace.dir", "trace.record_payloads",
-	"log.level",
+// Init 按三层顺序合并配置：程序 const → config.yaml → 命令行 flag。
+// 每一层只覆盖它显式给出的 key，没给的一律沿用上一层。
+// 合并完做一次校验，配置不合法直接 panic（别带着坏配置往下跑）。
+func Init(cfg *Config) {
+	*cfg = defaultConfig() // 第一层：程序内置默认值
+	loadYAML(cfg)          // 第二层：config.yaml
+	applyArgs(cfg)         // 第三层：命令行 flag
+	if err := cfg.validate(); err != nil {
+		panic(fmt.Errorf("config: %w", err))
+	}
 }
 
-// Init 只做两件事：把 config.yaml 读一次进 cfg，再用命令行 flag 覆盖。
-// 不读环境变量、不写内置默认、不 watch、不建目录。
-func Init(cfg *Config) {
+// loadYAML 把 config.yaml 里出现的 key 覆盖到 cfg 上。
+// 文件不存在不算错误：整份配置退化成只有 const 层，只在 stderr 提示一句；
+// 文件存在但读不动/写坏了才 panic（那种错不提示就直接跑更危险）。
+func loadYAML(cfg *Config) {
 	v := viper.New()
-	v.SetConfigFile(configFile) // 固定路径：不 AddConfigPath、不写默认文件
+	v.SetConfigFile(configFile) // 固定路径：不 AddConfigPath、不搜目录、不 watch
+
 	if err := v.ReadInConfig(); err != nil {
+		if errors.Is(err, fs.ErrNotExist) {
+			fmt.Fprintf(os.Stderr, "config: 未找到 %s，全部使用程序内置默认值\n", configFile)
+			return
+		}
 		panic(fmt.Errorf("config: 读取 %s 失败: %w", configFile, err))
 	}
-	if missing := missingKeys(v); len(missing) > 0 {
-		panic(fmt.Errorf("config: %s 不完整，缺少: %s", configFile, strings.Join(missing, ", ")))
-	}
+
+	// Unmarshal 只写 yaml 里出现过的 key，缺的字段保持 const 层的值。
 	if err := v.Unmarshal(cfg); err != nil {
 		panic(fmt.Errorf("config: 解析 %s 失败: %w", configFile, err))
 	}
-
-	args := new(Args)
-	fs := flag.NewFlagSet("uh", flag.ExitOnError)
-	args.bind(fs, cfg)
-	_ = fs.Parse(os.Args[1:]) // -h 打 usage 退 0；参数写错打错误退 2
-	args.apply(cfg)
 }
 
-// missingKeys 返回 config.yaml 里缺失的 key。
-func missingKeys(v *viper.Viper) []string {
-	var missing []string
-	for _, k := range required {
-		if !v.IsSet(k) {
-			missing = append(missing, k)
-		}
-	}
-	return missing
+// applyArgs 解析命令行 flag（第三层），默认值取前两层合并后的值。
+func applyArgs(cfg *Config) {
+	args := new(Args)
+	set := flag.NewFlagSet("uh", flag.ExitOnError)
+	args.bind(set, cfg)
+	_ = set.Parse(os.Args[1:]) // -h/-help 打 usage 退 0；参数写错打错误退 2
+	args.apply(cfg)
 }

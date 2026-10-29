@@ -25,6 +25,7 @@ type LLM struct {
 type Agent struct {
 	MaxTurns     int           `mapstructure:"max_turns"`
 	SystemPrompt string        `mapstructure:"system_prompt"`
+	UserPrompt   string        `mapstructure:"user_prompt"`
 	TaskTimeout  time.Duration `mapstructure:"task_timeout"`
 	RepeatLimit  int           `mapstructure:"repeat_limit"`
 }

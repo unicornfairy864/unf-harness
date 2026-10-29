@@ -1,8 +1,9 @@
-# unf-harness 配置。优先级：flag > 本文件
+# unf-harness 配置。三层优先级：程序内置默认值（config/defaults.go 的 const）< 本文件 < 命令行 flag。
+# 本文件可以只写要改的 key，没写的自动用程序内置默认值；api_key 不读环境变量，只能写这里或用 -k 传。
 llm:
   base_url: http://127.0.0.1:8080/v1   # 换远程 API 只改这一行
   model: qwen3-coder
-  api_key: ""                # 本地留空；远程可以直接填这里，或用 -api-key 覆盖
+  api_key: ""                # 本地留空；远程写这里或用 -k 传（不读环境变量）
   timeout: 5m                # 单次 LLM 请求超时（本地 30B CPU 慢，按分钟给）
   temperature: 0.2           # 工具调用场景压低，别用 1.0
   max_tokens: 4096
@@ -10,7 +11,8 @@ llm:
 
 agent:
   max_turns: 25              # 硬上限，防死循环
-  system_prompt: ""          # 空 = 用内置默认
+  system_prompt: "You are a helpful assistant."
+  user_prompt: ""            # 空 = panic
   task_timeout: 60s          # 整个任务总超时（三层超时的中层）
   repeat_limit: 3            # 同工具同参数重复 N 次就打断
 

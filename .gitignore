@@ -2,3 +2,5 @@
 *.bat
 
 .idea
+
+config.yaml
