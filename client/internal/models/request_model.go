@@ -8,7 +8,7 @@ type ChatRequestBody struct {
 	ReasoningEffort string    `json:"reasoning_effort"`
 	MaxTokens       int64     `json:"max_tokens"`
 	Temperature     float64   `json:"temperature"`
-	Thinking        thinking  `json:"thinking"`
+	Thinking        *thinking `json:"thinking"`
 	ResponseFormat  format    `json:"response_format"`
 }
 
@@ -26,11 +26,11 @@ type thinking struct {
 }
 
 func (r *ChatRequestBody) EnableThinking() {
-	r.Thinking = thinking{Type: constants.ThinkingEnabled}
+	r.Thinking = &thinking{Type: constants.ThinkingEnabled}
 }
 
 func (r *ChatRequestBody) DisableThinking() {
-	r.Thinking = thinking{Type: constants.ThinkingDisabled}
+	r.Thinking = nil
 }
 
 type format struct {

@@ -7,7 +7,7 @@ import "time"
 // 改这里 = 改 config.yaml 缺失时的行为；config.yaml 和 flag 都能覆盖它。
 const (
 	// llm
-	defaultLLMBaseURL     = "http://127.0.0.1:8080/v1" // 换远程 API 只改这一行
+	defaultLLMBaseURL     = "http://127.0.0.1:8080/v1/chat/completions" // 换远程 API 只改这一行
 	defaultLLMModel       = "qwen3-coder"
 	defaultLLMAPIKey      = "" // 空：本地 llama-server 不校验，远程用 -k 传
 	defaultLLMTimeout     = 5 * time.Minute
