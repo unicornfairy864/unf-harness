@@ -4,38 +4,30 @@ import "time"
 
 // Config 与 config.yaml 一一对应：section -> field。
 type Config struct {
-	LLM     LLM     `mapstructure:"llm"`
-	Agent   Agent   `mapstructure:"agent"`
-	Context Context `mapstructure:"context"`
-	Tools   Tools   `mapstructure:"tools"`
-	Trace   Trace   `mapstructure:"trace"`
-	Log     Log     `mapstructure:"log"`
+	LLM   LLM   `mapstructure:"llm"`
+	Tools Tools `mapstructure:"tools"`
+	Trace Trace `mapstructure:"trace"`
+	Log   Log   `mapstructure:"log"`
 }
 
 type LLM struct {
-	BaseURL         string        `mapstructure:"base_url"`
-	Model           string        `mapstructure:"model"`
-	APIKey          string        `mapstructure:"api_key"`
-	Timeout         time.Duration `mapstructure:"timeout"`
-	Temperature     float64       `mapstructure:"temperature"`
-	MaxTokens       int64         `mapstructure:"max_tokens"`
-	Stream          bool          `mapstructure:"stream"`
-	Thinking        bool          `mapstructure:"thinking"`
-	ReasoningEffort string        `mapstructure:"reasoning_effort"`
-}
-
-type Agent struct {
-	MaxTurns     int           `mapstructure:"max_turns"`
-	SystemPrompt string        `mapstructure:"system_prompt"`
-	UserPrompt   string        `mapstructure:"user_prompt"`
-	TaskTimeout  time.Duration `mapstructure:"task_timeout"`
-	RepeatLimit  int           `mapstructure:"repeat_limit"`
-}
-
-type Context struct {
-	MaxPromptTokens    int `mapstructure:"max_prompt_tokens"`
-	KeepRecentTurns    int `mapstructure:"keep_recent_turns"`
-	ToolResultMaxBytes int `mapstructure:"tool_result_max_bytes"`
+	BaseURL            string        `mapstructure:"base_url"`
+	Model              string        `mapstructure:"model"`
+	APIKey             string        `mapstructure:"api_key"`
+	Timeout            time.Duration `mapstructure:"timeout"`
+	Temperature        float64       `mapstructure:"temperature"`
+	MaxTokens          int64         `mapstructure:"max_tokens"`
+	Stream             bool          `mapstructure:"stream"`
+	Thinking           bool          `mapstructure:"thinking"`
+	ReasoningEffort    string        `mapstructure:"reasoning_effort"`
+	MaxTurns           int           `mapstructure:"max_turns"`
+	SystemPrompt       string        `mapstructure:"system_prompt"`
+	UserPrompt         string        `mapstructure:"user_prompt"`
+	TaskTimeout        time.Duration `mapstructure:"task_timeout"`
+	RepeatLimit        int           `mapstructure:"repeat_limit"`
+	MaxPromptTokens    int           `mapstructure:"max_prompt_tokens"`
+	KeepRecentTurns    int           `mapstructure:"keep_recent_turns"`
+	ToolResultMaxBytes int           `mapstructure:"tool_result_max_bytes"`
 }
 
 type Tools struct {

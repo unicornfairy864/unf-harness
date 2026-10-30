@@ -10,15 +10,11 @@ llm:
   stream: false              # MVP 关掉
   thinking: true             # 是否开启思考（API 层是 {"type": "enabled"}）；关掉用 -thinking=false
   reasoning_effort: high     # 思考强度：low / medium / high
-
-agent:
   max_turns: 25              # 硬上限，防死循环
   system_prompt: "You are a helpful assistant."
   user_prompt: ""            # 空 = panic
   task_timeout: 60s          # 整个任务总超时（三层超时的中层）
   repeat_limit: 3            # 同工具同参数重复 N 次就打断
-
-context:
   max_prompt_tokens: 24000   # 必须 < llama-server 的 -c 32768，给生成留空间
   keep_recent_turns: 6       # 裁剪时保留最近几轮
   tool_result_max_bytes: 8192

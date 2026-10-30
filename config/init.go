@@ -20,9 +20,6 @@ func Init(cfg *Config) {
 	*cfg = defaultConfig() // 第一层：程序内置默认值
 	loadYAML(cfg)          // 第二层：config.yaml
 	applyArgs(cfg)         // 第三层：命令行 flag
-	if err := cfg.validate(); err != nil {
-		panic(fmt.Errorf("config: %w", err))
-	}
 }
 
 // loadYAML 把 config.yaml 里出现的 key 覆盖到 cfg 上。
@@ -34,7 +31,7 @@ func loadYAML(cfg *Config) {
 
 	if err := v.ReadInConfig(); err != nil {
 		if errors.Is(err, fs.ErrNotExist) {
-			fmt.Fprintf(os.Stderr, "config: 未找到 %s，全部使用程序内置默认值\n", configFile)
+			_, _ = fmt.Fprintf(os.Stderr, "config: 未找到 %s，全部使用程序内置默认值\n", configFile)
 			return
 		}
 		panic(fmt.Errorf("config: 读取 %s 失败: %w", configFile, err))

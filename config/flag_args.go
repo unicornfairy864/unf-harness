@@ -24,8 +24,8 @@ func (a *Args) bind(fs *flag.FlagSet, cfg *Config) {
 	fs.StringVar(&a.Model, "m", cfg.LLM.Model, "选择使用的模型")
 	fs.Int64Var(&a.MaxTokens, "M", cfg.LLM.MaxTokens, "最大输出token数")
 	fs.StringVar(&a.ApiKey, "k", cfg.LLM.APIKey, "api_key")
-	fs.StringVar(&a.SystemPrompt, "S", cfg.Agent.SystemPrompt, "system_prompt")
-	fs.StringVar(&a.UserPrompt, "c", cfg.Agent.UserPrompt, "user_prompt")
+	fs.StringVar(&a.SystemPrompt, "S", cfg.LLM.SystemPrompt, "system_prompt")
+	fs.StringVar(&a.UserPrompt, "c", cfg.LLM.UserPrompt, "user_prompt")
 	fs.DurationVar(&a.TimeOut, "t", cfg.LLM.Timeout, "最大输出时间")
 	fs.Float64Var(&a.Temperature, "T", cfg.LLM.Temperature, "temperature")
 	fs.BoolVar(&a.Stream, "s", cfg.LLM.Stream, "是否启用流式输出")
@@ -43,6 +43,6 @@ func (a *Args) apply(cfg *Config) {
 	cfg.LLM.Stream = a.Stream
 	cfg.LLM.Thinking = a.Thinking
 	cfg.LLM.ReasoningEffort = a.ReasoningEffort
-	cfg.Agent.SystemPrompt = a.SystemPrompt
-	cfg.Agent.UserPrompt = a.UserPrompt
+	cfg.LLM.SystemPrompt = a.SystemPrompt
+	cfg.LLM.UserPrompt = a.UserPrompt
 }
