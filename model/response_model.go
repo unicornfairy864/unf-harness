@@ -1,6 +1,8 @@
-package models
+package model
 
-type Data struct {
+import "encoding/json"
+
+type ResponseBody struct {
 	Id                string `json:"id"`
 	Model             string `json:"model"`
 	Created           int    `json:"created"`
@@ -8,14 +10,10 @@ type Data struct {
 	SystemFingerprint string `json:"system_fingerprint"`
 
 	Choices []struct {
-		FinishReason string  `json:"finish_reason"`
-		Index        int     `json:"index"`
-		Logprobs     *string `json:"logprobs"`
-		Message      struct {
-			Content          string `json:"content"`
-			ReasoningContent string `json:"reasoning_content"`
-			Role             string `json:"role"`
-		} `json:"message"`
+		FinishReason string          `json:"finish_reason"`
+		Index        int             `json:"index"`
+		Logprobs     *string         `json:"logprobs"`
+		Message      json.RawMessage `json:"message"`
 	} `json:"choices"`
 
 	Usage struct {
@@ -31,4 +29,11 @@ type Data struct {
 		} `json:"prompt_tokens_details"`
 		TotalTokens int `json:"total_tokens"`
 	} `json:"usage"`
+}
+
+type ToolCallResponse struct {
+	Role             string     `json:"role"`
+	Content          string     `json:"content"`
+	ReasoningContent string     `json:"reasoning_content"`
+	ToolCalls        []ToolCall `json:"tool_calls,omitempty"`
 }

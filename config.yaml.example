@@ -12,7 +12,6 @@ llm:
   reasoning_effort: high     # 思考强度：low / medium / high
   max_turns: 25              # 硬上限，防死循环
   system_prompt: "You are a helpful assistant."
-  user_prompt: ""            # 空 = panic
   task_timeout: 60s          # 整个任务总超时（三层超时的中层）
   repeat_limit: 3            # 同工具同参数重复 N 次就打断
   max_prompt_tokens: 24000   # 必须 < llama-server 的 -c 32768，给生成留空间

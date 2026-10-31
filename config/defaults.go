@@ -22,7 +22,6 @@ const (
 	// agent
 	defaultAgentMaxTurns     = 25
 	defaultAgentSystemPrompt = "You are a helpful assistant."
-	defaultAgentUserPrompt   = "" // 空 = validate 阶段 panic，必须由 config.yaml 或 -c 给出
 	defaultAgentTaskTimeout  = 60 * time.Second
 	defaultAgentRepeatLimit  = 3
 
@@ -63,7 +62,6 @@ func defaultConfig() Config {
 			ReasoningEffort:    defaultLLMReasoningEffort,
 			MaxTurns:           defaultAgentMaxTurns,
 			SystemPrompt:       defaultAgentSystemPrompt,
-			UserPrompt:         defaultAgentUserPrompt,
 			TaskTimeout:        defaultAgentTaskTimeout,
 			RepeatLimit:        defaultAgentRepeatLimit,
 			MaxPromptTokens:    defaultContextMaxPromptTokens,

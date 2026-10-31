@@ -22,7 +22,6 @@ type LLM struct {
 	ReasoningEffort    string        `mapstructure:"reasoning_effort"`
 	MaxTurns           int           `mapstructure:"max_turns"`
 	SystemPrompt       string        `mapstructure:"system_prompt"`
-	UserPrompt         string        `mapstructure:"user_prompt"`
 	TaskTimeout        time.Duration `mapstructure:"task_timeout"`
 	RepeatLimit        int           `mapstructure:"repeat_limit"`
 	MaxPromptTokens    int           `mapstructure:"max_prompt_tokens"`

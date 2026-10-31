@@ -7,13 +7,14 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/unicornfairy864/unf-harness/client/internal/models"
 	"github.com/unicornfairy864/unf-harness/config"
+	"github.com/unicornfairy864/unf-harness/model"
 )
 
-func (c *LLMClient) Request(postBody models.ChatRequestBody) (*models.Data, error) {
+func (c *LLMClient) Request(postBody *model.RequestBody) (*model.ResponseBody, error) {
 	// 设置 body 请求
 	dataStr, _ := json.Marshal(postBody)
+	//fmt.Printf("%q\n", dataStr)
 
 	req, _ := http.NewRequest("POST", config.UH_Config.LLM.BaseURL,
 		bytes.NewReader(dataStr))
@@ -34,6 +35,7 @@ func (c *LLMClient) Request(postBody models.ChatRequestBody) (*models.Data, erro
 	if err != nil {
 		return nil, err
 	}
+	//fmt.Println(string(body)) // 测试输出
 	result, err := parseResp(body)
 	if err != nil {
 		return nil, err
@@ -41,12 +43,11 @@ func (c *LLMClient) Request(postBody models.ChatRequestBody) (*models.Data, erro
 	return result, nil
 }
 
-func parseResp(body []byte) (*models.Data, error) {
+func parseResp(body []byte) (*model.ResponseBody, error) {
 	/*  现在只能解析 deepseek
 	 *  以后可能兼容更多服务提供商
-	 *  为什么不用 openai-go: 因为 esp32 也要用 http 请求
 	 */
-	data := models.Data{}
+	data := model.ResponseBody{}
 	err := json.Unmarshal(body, &data)
 	if err != nil {
 		return nil, err
