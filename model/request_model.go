@@ -42,6 +42,6 @@ func (r *RequestBody) SetResponseFormatJson() {
 	r.ResponseFormat = format{Type: constants.ResponseFormatJSON}
 }
 
-func (r *RequestBody) RegisterTool(t Function) {
-	r.Tools = append(r.Tools, ToolToFuncTool(t))
+func (r *RequestBody) RegisterTool(t FunctionTool) {
+	r.Tools = append(r.Tools, ToolToFuncTool(t.Function))
 }

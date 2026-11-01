@@ -43,7 +43,15 @@ func (r *RequestBody) AppendImage(data *string) {
 }
 
 type ToolMessage struct {
-	Role      string     `json:"role"`
-	Content   string     `json:"content"`
-	ToolCalls []ToolCall `json:"tool_calls,omitempty"`
+	Role       string `json:"role"`
+	ToolCallID string `json:"tool_call_id"`
+	Content    string `json:"content"`
+}
+
+func (r *RequestBody) AppendToolCallWithID(toolCallID, content string) {
+	r.Messages = append(r.Messages, ToolMessage{
+		Role:       "tool",
+		ToolCallID: toolCallID,
+		Content:    content,
+	})
 }

@@ -32,7 +32,7 @@ func InitRequestBody() *model.RequestBody {
 
 	// Tool
 	for _, toolName := range config.UH_Config.Tools.Enabled {
-		req.RegisterTool(tool.Tools[toolName])
+		req.RegisterTool(model.ToolToFuncTool(tool.Tools[toolName].GetTool()))
 	}
 
 	return req

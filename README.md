@@ -1,7 +1,6 @@
-# 学习项目：阿根廷战术回旋
+# 阿根廷战术回旋
 
 <img width="406" height="122" alt="img" src="https://github.com/user-attachments/assets/0e7be635-67aa-48d2-ae37-74599fd2bb47" />
-
 
 ---
 

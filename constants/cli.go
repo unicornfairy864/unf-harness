@@ -8,6 +8,8 @@ const (
 	CliThinkingPrompt   = "\n● Thinking\n"
 	CliAssistantPrompt  = "\n● Assistant\n"
 	CliInputAgainPrompt = "Please input again. | or Type \"" + CliExitCommand + "\" to quit."
+
+	TruncateMaxLength = 128
 )
 
 var PromptStop = map[string]string{
