@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/unicornfairy864/unf-harness/config"
+	"github.com/unicornfairy864/unf-harness/constants"
 	"github.com/unicornfairy864/unf-harness/model"
 	"github.com/unicornfairy864/unf-harness/tool"
 )
@@ -27,7 +28,7 @@ func InitRequestBody() *model.RequestBody {
 	}
 
 	// Message
-	req.AppendText("system", config.UH_Config.LLM.SystemPrompt)
+	req.AppendText(constants.RoleSystem, config.UH_Config.LLM.SystemPrompt)
 
 	// Tool
 	for _, toolName := range config.UH_Config.Tools.Enabled {

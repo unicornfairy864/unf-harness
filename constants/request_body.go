@@ -1,8 +1,10 @@
 package constants
 
 const (
-	RoleSystem string = "system"
-	RoleUser   string = "user"
+	RoleSystem    string = "system"
+	RoleUser      string = "user"
+	RoleAssistant string = "assistant"
+	RoleTool      string = "tool"
 
 	ThinkingEnabled  string = "enabled"
 	ThinkingDisabled string = "disabled"

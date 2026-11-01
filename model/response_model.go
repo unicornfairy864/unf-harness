@@ -31,9 +31,19 @@ type ResponseBody struct {
 	} `json:"usage"`
 }
 
-type ToolCallResponse struct {
+type MessageResponse struct {
 	Role             string     `json:"role"`
 	Content          string     `json:"content"`
 	ReasoningContent string     `json:"reasoning_content"`
 	ToolCalls        []ToolCall `json:"tool_calls,omitempty"`
+}
+
+type ToolCall struct {
+	Index    int    `json:"index"`
+	Id       string `json:"id"`
+	Type     string `json:"type"`
+	Function struct {
+		Name      string `json:"name"`
+		Arguments string `json:"arguments"`
+	} `json:"function"`
 }
