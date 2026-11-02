@@ -164,7 +164,7 @@ func confirmWrite(content string) bool {
 var ToolWriteFile = toolWriteFile{
 	Function: model.Function{
 		Name:        "write_file",
-		Description: "写入工具。把 content 写入 file_path 指定的文件。mode=overwrite 覆盖写入（文件不存在则创建，已存在则清空后写入），mode=append 追加到文件末尾；单次最多 8192 字符，更长的内容分多次 append。",
+		Description: "写入工具。把 content 写入 file_path 指定的文件。mode=overwrite 覆盖写入（文件不存在则创建，已存在则清空后写入），mode=append 追加到文件末尾；单次最多 81920 字符，更长的内容分多次 append。",
 		Strict:      false,
 		Parameters: model.Schema{
 			Type: "object",

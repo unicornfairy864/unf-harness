@@ -51,7 +51,16 @@ User >
 
 #### 工具调用示例
 ```shell
-
+● Thinking
+Now run.
+[ToolCall:0-run_shell]Params:{"command": "python fix_svg.py", "description": "执行 SVG 小修正"}
+[run_shell] cwd: D:\ZJUT.SI\unf-harness\workplace\
+[run_shell] intent: 执行 SVG 小修正
+[run_shell] $ python fix_svg.py
+[run_shell] run it? (y=yes / n=no) > y
+resp>exit code: 0
+--- output ---
+patched
 ```
 
 #### 可选参数
