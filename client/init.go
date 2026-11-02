@@ -13,7 +13,7 @@ func Init(client *LLMClient) {
 	client.httpClient = &http.Client{Timeout: config.UH_Config.LLM.Timeout}
 }
 
-func InitRequestBody() *model.RequestBody {
+func InitRequestBody(enableTool bool) *model.RequestBody {
 	req := &model.RequestBody{
 		Model:           config.UH_Config.LLM.Model,
 		ReasoningEffort: config.UH_Config.LLM.ReasoningEffort,
@@ -31,8 +31,14 @@ func InitRequestBody() *model.RequestBody {
 	req.AppendText(constants.RoleSystem, config.UH_Config.LLM.SystemPrompt)
 
 	// Tool
-	for _, toolName := range config.UH_Config.Tools.Enabled {
-		req.RegisterTool(model.ToolToFuncTool(tool.Tools[toolName].GetTool()))
+	if enableTool {
+		for _, toolName := range config.UH_Config.Tools.Enabled {
+			t, ok := tool.Tools[toolName]
+			if !ok {
+				continue
+			}
+			req.RegisterTool(model.ToolToFuncTool(t.GetTool()))
+		}
 	}
 
 	return req

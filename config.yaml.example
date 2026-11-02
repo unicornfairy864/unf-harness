@@ -19,6 +19,7 @@ llm:
   tool_result_max_bytes: 8192
 
 tools:
+  workplace: ""
   enabled: [run_shell, read_file, write_file]
   run_shell:
     timeout: 60s             # 单条命令超时（三层超时的短层）

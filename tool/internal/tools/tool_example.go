@@ -3,6 +3,7 @@ package tools
 import (
 	"encoding/json"
 	"errors"
+	"strings"
 
 	"github.com/unicornfairy864/unf-harness/model"
 )
@@ -21,6 +22,9 @@ func (t *toolExample) GetTool() model.Function {
 }
 
 func (t *toolExample) ReceiveParam(message string) error {
+	if strings.TrimSpace(message) == "" {
+		message = "{}"
+	}
 	params := paramsExample{}
 	err := json.Unmarshal([]byte(message), &params)
 	if err != nil {

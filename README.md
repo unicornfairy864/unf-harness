@@ -66,7 +66,7 @@ Usage of uh:
   -T float
         temperature (default 0.2)
   -k string
-        api_key (default "sk-7d3fabacf3e2463bac3b9516032e8c9a")
+        api_key
   -m string
         选择使用的模型 (default "deepseek-flash")
   -r string

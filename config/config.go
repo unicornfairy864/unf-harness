@@ -30,6 +30,7 @@ type LLM struct {
 }
 
 type Tools struct {
+	Workplace string    `mapstructure:"workplace"`
 	Enabled   []string  `mapstructure:"enabled"`
 	RunShell  RunShell  `mapstructure:"run_shell"`
 	WriteFile WriteFile `mapstructure:"write_file"`
